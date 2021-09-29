@@ -15,6 +15,7 @@ import org.hibernate.annotations.NotFoundAction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.euris.academy.teslabattery_da.data.archetype.Dto;
 import it.euris.academy.teslabattery_da.data.archetype.Model;
+import it.euris.academy.teslabattery_da.data.dto.RobotDto;
 import it.euris.academy.teslabattery_da.data.enums.RobotTask;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,8 +49,11 @@ public class Robot implements Model {
   private AssemblyLine assemblyLineId;
   
   @Override
-  public Dto toDto() {
-    // TODO Auto-generated method stub
-    return null;
+  public RobotDto toDto() {
+    return RobotDto.builder()
+        .id(id.toString())
+        .task(task.toString())
+        .positionalOrder(positionalOrder.toString())
+        .build();
   }
 }

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.euris.academy.teslabattery_da.data.archetype.Dto;
 import it.euris.academy.teslabattery_da.data.archetype.Model;
+import it.euris.academy.teslabattery_da.data.dto.ComponentDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,7 +43,7 @@ public class Component implements Model {
   private Formula formulaId;
 
   @Override
-  public Dto toDto() {
+  public ComponentDto toDto() {
     // TODO Auto-generated method stub
     return null;
   }

@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.euris.academy.teslabattery_da.data.archetype.Dto;
 import it.euris.academy.teslabattery_da.data.archetype.Model;
+import it.euris.academy.teslabattery_da.data.dto.AssemblyLineDto;
+import it.euris.academy.teslabattery_da.utils.UT;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,11 +41,15 @@ public class AssemblyLine implements Model {
   
   @OneToMany(mappedBy = "assemblyLineId")
   @Builder.Default
+  //@JoinColumn??
   private List<Robot> robots = new ArrayList<Robot>();
 
   @Override
-  public Dto toDto() {
-    // TODO Auto-generated method stub
-    return null;
+  public AssemblyLineDto toDto() {
+    return AssemblyLineDto.builder()
+        .id(UT.numberToString(id))
+        .name(name)
+        .completionTime(UT.numberToString(completionTime))
+        .build();
   }
 }

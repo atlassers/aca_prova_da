@@ -1,6 +1,7 @@
 package it.euris.academy.teslabattery_da.utils;
 
 import java.time.Instant;
+import it.euris.academy.teslabattery_da.data.enums.RobotTask;
 
 public class UT {
 
@@ -32,14 +33,14 @@ public class UT {
     return value == null ? null : Integer.parseInt(value);
   }
   
-//  public static DeliveryType getDeliveryType(String value) {
-//    if(value == null)
-//      return null;
-//    
-//    for(DeliveryType delivery : DeliveryType.values()) {
-//      if(delivery.name().equals(value)) 
-//        return delivery;
-//      }
-//      return null;
-//  }
+  public static RobotTask getRobotTask(String value) {
+    if(value == null)
+      return null;
+    
+    for(RobotTask task : RobotTask.values()) {
+      if(task.name().equals(value)) 
+        return task;
+      }
+      return null;
+  }
 }
