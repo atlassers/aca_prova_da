@@ -1,12 +1,10 @@
 package it.euris.academy.teslabattery_da.data.dto;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.euris.academy.teslabattery_da.data.archetype.Dto;
-import it.euris.academy.teslabattery_da.data.archetype.Model;
 import it.euris.academy.teslabattery_da.data.model.AssemblyLine;
-import it.euris.academy.teslabattery_da.data.model.Robot;
 import it.euris.academy.teslabattery_da.utils.UT;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,15 +24,22 @@ public class AssemblyLineDto implements Dto {
   private String completionTime;
   
   @JsonIgnore
-  private List<RobotDto> robots;
+  private List<AssemblyLineRobotDto> assemblyLineRobotDtos;
   
   @Override
   public AssemblyLine toModel() {
-    return AssemblyLine.builder()
+    AssemblyLine assemblyLine = AssemblyLine.builder()
         .id(UT.toLong(id))
         .name(name)
         .completionTime(UT.toLong(completionTime))
         .build();
+    
+    if(this.getAssemblyLineRobotDtos() != null) {
+      assemblyLine.getAssemblyLineRobots().addAll(this.getAssemblyLineRobotDtos()
+          .stream().map(AssemblyLineRobotDto::toModel).collect(Collectors.toSet()));
+    }
+    
+    return assemblyLine;
   }
 
 }

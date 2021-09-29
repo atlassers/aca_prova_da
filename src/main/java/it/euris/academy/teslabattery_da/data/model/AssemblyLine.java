@@ -1,8 +1,7 @@
 package it.euris.academy.teslabattery_da.data.model;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import it.euris.academy.teslabattery_da.data.archetype.Dto;
 import it.euris.academy.teslabattery_da.data.archetype.Model;
 import it.euris.academy.teslabattery_da.data.dto.AssemblyLineDto;
 import it.euris.academy.teslabattery_da.utils.UT;
@@ -39,10 +37,14 @@ public class AssemblyLine implements Model {
   @Column(name = "completion_time")
   private Long completionTime;
   
-  @OneToMany(mappedBy = "assemblyLineId")
+  @OneToMany(mappedBy = "assemblyLine")
   @Builder.Default
-  //@JoinColumn??
-  private List<Robot> robots = new ArrayList<Robot>();
+  @JsonIgnore
+  private Set<AssemblyLineRobot> assemblyLineRobots = new HashSet<AssemblyLineRobot>();
+  
+  public AssemblyLine(String assemblyId) {
+    this.id = Long.valueOf(assemblyId);
+  }
 
   @Override
   public AssemblyLineDto toDto() {

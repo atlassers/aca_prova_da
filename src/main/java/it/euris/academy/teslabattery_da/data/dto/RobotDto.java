@@ -1,7 +1,9 @@
 package it.euris.academy.teslabattery_da.data.dto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.euris.academy.teslabattery_da.data.archetype.Dto;
-import it.euris.academy.teslabattery_da.data.archetype.Model;
 import it.euris.academy.teslabattery_da.data.model.Robot;
 import it.euris.academy.teslabattery_da.utils.UT;
 import lombok.AllArgsConstructor;
@@ -17,17 +19,24 @@ public class RobotDto implements Dto {
 
   private String id;
 
-  private String task;
+  private String task; 
   
-  private String positionalOrder; 
+  @JsonIgnore
+  private List<AssemblyLineRobotDto> assemblyLineRobotDtos;
   
   @Override
   public Robot toModel() {
-    return Robot.builder()
+    Robot robot = Robot.builder()
         .id(UT.toLong(id))
         .task(UT.getRobotTask(task))
-        .positionalOrder(UT.toInteger(positionalOrder))
         .build();
+    
+    if(this.getAssemblyLineRobotDtos() != null) {
+      robot.getAssemblyLineRobots().addAll(this.getAssemblyLineRobotDtos()
+          .stream().map(AssemblyLineRobotDto::toModel).collect(Collectors.toSet()));
+    }
+    
+    return robot;
   }
 
 }

@@ -1,6 +1,7 @@
 package it.euris.academy.teslabattery_da.utils;
 
 import java.time.Instant;
+import it.euris.academy.teslabattery_da.data.enums.CycleStatus;
 import it.euris.academy.teslabattery_da.data.enums.RobotTask;
 
 public class UT {
@@ -40,6 +41,17 @@ public class UT {
     for(RobotTask task : RobotTask.values()) {
       if(task.name().equals(value)) 
         return task;
+      }
+      return null;
+  }
+  
+  public static CycleStatus getCycleStatus(String value) {
+    if(value == null)
+      return null;
+    
+    for(CycleStatus status : CycleStatus.values()) {
+      if(status.name().equals(value)) 
+        return status;
       }
       return null;
   }

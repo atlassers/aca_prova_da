@@ -1,5 +1,7 @@
 package it.euris.academy.teslabattery_da.data.model;
 
+import java.util.Set;
+import java.util.HashSet;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,13 +9,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import it.euris.academy.teslabattery_da.data.archetype.Dto;
 import it.euris.academy.teslabattery_da.data.archetype.Model;
 import it.euris.academy.teslabattery_da.data.dto.RobotDto;
 import it.euris.academy.teslabattery_da.data.enums.RobotTask;
@@ -39,21 +37,20 @@ public class Robot implements Model {
   @Enumerated(EnumType.STRING)
   private RobotTask task;
   
-  @Column(name = "positional_order")
-  private Integer positionalOrder;
-  
-  @ManyToOne
-  @NotFound(action = NotFoundAction.IGNORE)
-  @JoinColumn(name = "assembly_id")
+  @OneToMany(mappedBy = "robot")
+  @Builder.Default
   @JsonIgnore
-  private AssemblyLine assemblyLineId;
+  private Set<AssemblyLineRobot> assemblyLineRobots = new HashSet<AssemblyLineRobot>();
+  
+  public Robot(String robotId) {
+    this.id = Long.valueOf(robotId);
+  }
   
   @Override
   public RobotDto toDto() {
     return RobotDto.builder()
         .id(id.toString())
         .task(task.toString())
-        .positionalOrder(positionalOrder.toString())
         .build();
   }
 }
