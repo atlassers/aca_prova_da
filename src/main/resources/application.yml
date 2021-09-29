@@ -1,0 +1,49 @@
+# Parametri generali di settaggio del server
+# http://localhost:8100/teslabattery_da
+server:
+  port: 8100
+  servlet:
+    context-path: /teslabattery_da
+
+## Application
+spring:                                                                                                   
+  # Nome del microservizio
+  application:
+    name: teslabattery_da-microservice
+  mvc:
+    throw-exception-if-no-handler-found: true    
+  # Settaggi del database
+  jpa:
+    hibernate:
+      
+      ddl-auto: update
+    properties: 
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+  datasource:
+    url: jdbc:mysql://localhost:3306/teslabattery_da?useLegacyDatetimeCode=false
+    username: academy
+    password: academy
+### SECURITY ###
+  security:
+    user:
+      name: teslabattery
+      password: teslabattery
+      roles: supervisor
+### SECURITY ###
+
+## Actuator api exposed
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+  server:
+    port: 9101
+    base-path: /health
